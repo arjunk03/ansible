@@ -1,0 +1,1 @@
+install_terraform = ansible-playbook terraform.yaml -e '@password.yml' --vault-password-file=vault.txt
