@@ -1,45 +1,75 @@
 --- 
 
 -  name: Install the gnupg
+   become: yes
    apt: name={{ item }} state=latest update_cache=true
-   loop: [gnupg, software-properties-common, wget, gpg]
+   loop: [gnupg, software-properties-common, wget, gpg, unzip]
+
+# -  name: Download terraform files
+#    become: yes
+#    script:
+#        cmd: /usr/bin/wget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip -y
+
+-  name: Download terraform files
+   become: yes
+   get_url:
+       url: https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
+       dest: "{{ project_dir }}"
+
+-  name: unzip the files
+   shell: cd "{{ project_dir }}" && unzip terraform_1.6.6_linux_amd64.zip
+   become: yes
+
+-  name: move the files to bin
+   shell: cd "{{ project_dir }}" && mv terraform /usr/local/bin/
+   become: yes
+
+-  name: check the installation
+   shell: terraform --version
+   become: yes
 
 # -  name: install hashicorps gpg keys
 #    script:
-#        cmd: wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+#        cmd: wget --no-check-certificate -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
 
--  name: Download gpg package
-   get_url: 
-      url: https://apt.releases.hashicorp.com/gpg 
-      dest: "{{ project_dir }}" 
-      mode: 755
+# -  name: Download gpg package
+#    become: yes
+#    get_url: 
+#       url: https://apt.releases.hashicorp.com/gpg  
+#       dest: "{{ project_dir }}" 
+#       mode: 755
 
--  name: install hashicorps gpg keys
-   shell: gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg 
-   become: yes
+# # -  name: Go to the folder and execute command
+# #    command: chdir="{{ project_dir }}" ls
+
+# -  name: install hashicorps gpg keys
+#    shell: cd "{{ project_dir }}" &&  gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg 
+#    become: yes
 
 
--  name: verify the keys fingerprint 
-   become: yes
-   script:
-      cmd: gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+# -  name: verify the keys fingerprint 
+#    become: yes
+#    script:
+#       cmd: gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
 
 
 # -  name: Add the official HashiCorp repository to your system 
 #    script:
 #        cmd: echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
 
--  name: Add the official HashiCorp repository to your system 
-   become: yes
-   shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
+# -  name: Add the official HashiCorp repository to your system 
+#    become: yes
+#    shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
 
 
--  name: Update apt packages
-   apt:
-      update_cache: yes
-      cache_valid_time: 86400 #One day
+# -  name: Update apt packages
+#    become: yes
+#    apt:
+#       update_cache: yes
+#       cache_valid_time: 86400 #One day
 
--  name: Install the terraform
-   apt: name=terraform state=latest update_cache=true
+# -  name: Install the terraform
+#    become: yes
+#    apt: name=terraform state=latest update_cache=true
 
 ...
