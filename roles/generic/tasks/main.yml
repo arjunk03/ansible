@@ -3,4 +3,9 @@
 -  name: Install the git
    become: yes
    apt: name={{ item }} state=latest update_cache=true
-   loop: [git]
+   loop: [git, curl, tmux]
+ 
+-  name: install chezmoi
+   shell: sh -c "$(curl -fsLS get.chezmoi.io)"
+   become: yes
+   
