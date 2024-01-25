@@ -1,0 +1,6 @@
+---
+# tasks file for generic
+-  name: Install the git
+   become: yes
+   apt: name={{ item }} state=latest update_cache=true
+   loop: [git]
