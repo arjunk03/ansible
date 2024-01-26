@@ -1,0 +1,110 @@
+---
+# tasks file for neoviim - Astrovim distribution
+
+# Install Nerd font
+- name: Install Jetbrains Nerd Font
+  block:
+    - name: Create Directory
+      ansible.builtin.file:
+        path: "/home/{{ user }}/.fonts/JetBrainsMonoNerd"
+        state: directory
+        mode: "0755"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        
+    - name: Download
+      ansible.builtin.unarchive:
+        src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip
+        dest: "/home/{{ user }}/.fonts/JetBrainsMonoNerd"
+        remote_src: true
+        owner: "{{ user }}"
+        group: "{{ user }}"
+ 
+    - name: Font cache update
+      action: command fc-cache -fv
+    
+- name: Install the neovim and its dependencies
+  become: yes
+  apt: name={{ item }} state=latest update_cache=true
+  loop: [neovim, ripgrep, fd-find, xclip, luarocks , gdu ]
+ 
+- name: install bottom
+  shell: 
+     cmd: | 
+           curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.6/bottom_0.9.6_amd64.deb
+  become: yes
+ 
+- name: install bottom
+  shell: 
+     cmd: | 
+           dpkg -i bottom_0.9.6_amd64.deb
+  become: yes
+    
+- name: install lazygit STEP 1
+  shell: curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" > lazygit_tmp_file.txt
+  become: yes
+  register: LAZYGIT_INFO
+  
+- debug: msg="{{ LAZYGIT_INFO.stdout }}"
+
+
+- name: install lazygit step 2
+  shell: 
+      cmd: |
+            grep -Po '"tag_name": "v\K[^"]*' lazygit_tmp_file.txt
+  become: yes
+  register: LAZYGIT_VERSION
+  
+- debug: msg="{{ LAZYGIT_VERSION.stdout }}"
+ 
+
+- name: install lazygit
+  shell: 
+        cmd: | 
+             curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_{{ LAZYGIT_VERSION.stdout }}_Linux_x86_64.tar.gz"
+  become: yes
+
+- name: print to stdout
+  command: ls -ltr
+  register: hello
+
+- debug: msg="{{ hello.stdout }}"
+
+
+- name: print file content size
+  command: zcat lazygit.tar.gz | wc -c
+  register: hello
+
+- debug: msg="{{ hello.stdout }}"
+
+
+- name: print to stdout
+  command: file lazygit.tar.gz
+  register: filetype
+
+- debug: msg="{{ filetype.stdout }}"
+
+
+- name: unzip lazygit tar gz
+  shell: tar xf lazygit.tar.gz lazygit
+  become: yes
+  
+
+
+- name: install lazygit  final
+  shell: "install lazygit /usr/local/bin"
+  become: yes
+  
+        
+-  name: Install the tree sitter cli
+   community.general.npm: 
+        name: tree-sitter-cli
+        global: true
+     
+- name: clone Astrovi repo
+  shell: "git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim"
+  become: yes
+  
+  
+  
+

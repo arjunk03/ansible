@@ -2,4 +2,5 @@
 - hosts: localhost 
   roles: 
    # - {role: terraform}
-   - {role: generic}
+   # - {role: generic}
+   - {role: neovim}

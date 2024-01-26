@@ -1,5 +1,10 @@
 --- 
 
+- name: ensure package directory
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+
 -  name: Install the gnupg
    become: yes
    apt: name={{ item }} state=latest update_cache=true
