@@ -1,0 +1,20 @@
+---
+# vars file for generic
+NODEJS_VERSION : "20.11.0"
+
+generic:
+    - git 
+    - curl 
+    - tmux
+    - npm
+    - gcc 
+    - nodejs 
+    - fzf 
+    - zoxide 
+    - bat 
+    #- diff-so-fancy 
+    - exa
+    - rsync
+    - zsh
+
+
