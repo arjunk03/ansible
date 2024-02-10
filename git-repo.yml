@@ -1,0 +1,5 @@
+---
+- name: Create git repo from reading from a file
+  hosts: localhost
+  roles:
+    - { role: create-git-repo }

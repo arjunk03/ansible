@@ -26,8 +26,7 @@
 - name: Install the neovim and its dependencies
   become: true
   apt: name={{ item }} state=latest update_cache=true
-  loop: [neovim, ripgrep, fd-find, xclip, luarocks , gdu , make, python3-neovim]
- 
+  loop: "{{ neovim_lib }}" 
 
 # tasks file for neoviim - Astro Nvim distribution 
  

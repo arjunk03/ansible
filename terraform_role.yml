@@ -1,6 +1,6 @@
---- 
-- hosts: localhost 
-  roles: 
-   # - {role: terraform}
-   - {role: generic}
-    # - {role: neovim}
+---
+- hosts: localhost
+  roles:
+    # - {role: terraform}
+    - { role: generic }
+    #- {role: neovim}

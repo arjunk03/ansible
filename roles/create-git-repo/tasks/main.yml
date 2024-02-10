@@ -1,0 +1,14 @@
+---
+# tasks file for roles/create-git-repo
+
+- name: read file git template
+  slurp:
+    src: template_file_name
+  register: git-template
+
+- name: show file
+  debug:
+    msg: " {{ git-template['git-repo-name'] }}"
+#- name: Get the git repo name from the template
+#  set_fact:
+#extract_key: "{{ }}"

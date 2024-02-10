@@ -1,0 +1,4 @@
+---
+# vars file for roles/create-git-repo
+
+template_file_name: "git-template.txt"

@@ -1,17 +1,16 @@
 ---
 # tasks file for generic
 
--  name: Install the generic cli tools
-   become: true
-   apt: name={{ item }} state=latest update_cache=true
-   loop: "{{ generic }}"
- 
--  name: install chezmoi
-   shell: sh -c "$(curl -fsLS get.chezmoi.io)"
-   become: true
+- name: Install the generic cli tools
+  become: true
+  apt: name={{ item }} state=latest update_cache=true
+  loop: "{{ generic }}"
 
--  name: Install the npm packages
-   npm: name={{ item }}  global=true
-   loop: [tldr ]
-   become: true
-     
+- name: install chezmoi
+  shell: sh -c "$(curl -fsLS get.chezmoi.io)"
+  become: true
+
+- name: Install the npm packages
+  npm: name={{ item }}  global=true
+  loop: "{{ npm_lib }}"
+  become: true

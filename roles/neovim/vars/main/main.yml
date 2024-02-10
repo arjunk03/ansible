@@ -2,3 +2,13 @@
 # vars file for neoviim
 
 user: arjun
+neovim_lib:
+   - neovim 
+   - ripgrep 
+   - fd-find
+   - xclip
+   - luarocks
+   - gdu 
+   - make 
+   - python3-neovim
+

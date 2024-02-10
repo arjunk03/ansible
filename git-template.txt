@@ -1,0 +1,4 @@
+git-repo-name: fin-organizer   
+jenkins-namespace: fin-organizer   
+
+
