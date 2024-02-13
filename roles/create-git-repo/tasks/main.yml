@@ -1,14 +1,39 @@
 ---
 # tasks file for roles/create-git-repo
 
+- name: Check the current directory
+  command: pwd
+  register: pwd_val
+
+- name: print the pwd value
+  debug:
+    msg: "the current foder is {{ pwd_val }}"
+
+- name: list the ileitesm
+  command: ls -ll PROJECTS/ansible/
+  register: ll_data
+
+- name: print the ll data
+  debug:
+    msg: "print ll data:  {{ ll_data}}"
+
 - name: read file git template
   slurp:
-    src: template_file_name
-  register: git-template
+    src: "{{  home_dir + '/' + template_file_name }}"
+  register: git_template
+
+- name: read data into another variable
+  file:
+    path: "{{  home_dir + '/' + template_file_name }}"
+  register: data
+
+- name: print the file contents
+  debug:
+    msg: "the file contests :  {{ lookup('file', '/mnt/f/PROJECTS/ansible/{{ template_file_name }}') }}"
 
 - name: show file
   debug:
-    msg: " {{ git-template['git-repo-name'] }}"
+    msg: " {{ git_template['git-repo-name'] }}"
 #- name: Get the git repo name from the template
 #  set_fact:
 #extract_key: "{{ }}"
