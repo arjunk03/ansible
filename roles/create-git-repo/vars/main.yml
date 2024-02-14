@@ -1,5 +1,5 @@
 ---
 # vars file for roles/create-git-repo
 
-home_dir: /home/arjun/PROJECTS/ansible
+home_dir: "/home/arjun/PROJECTS/ansible"
 template_file_name: "git_details.txt"

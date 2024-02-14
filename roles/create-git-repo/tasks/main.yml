@@ -24,12 +24,12 @@
 
 - name: read data into another variable
   file:
-    path: "{{  home_dir + '/' + template_file_name }}"
+    path: "{{  home_dir ~ '/' ~ template_file_name }}"
   register: data
 
 - name: print the file contents
   debug:
-    msg: "the file contests :  {{ lookup('file', '/mnt/f/PROJECTS/ansible/{{ template_file_name }}') }}"
+    msg: "the file contests :  {{ data }}"
 
 - name: show file
   debug:
