@@ -33,7 +33,7 @@
 
 - name: show file
   debug:
-    msg: " {{ git_template['git-repo-name'] }}"
+    msg: "{{ git_template['git-repo-name'] }}"
 #- name: Get the git repo name from the template
 #  set_fact:
 #extract_key: "{{ }}"
